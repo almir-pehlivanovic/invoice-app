@@ -12,8 +12,8 @@
     >
       <h1 class="-mt-4 drop-shadow-md">invoice</h1>
     </div>
-    <div class="absolute bottom-36 left-0 px-8 w-full">
-      <router-link :to="{name: 'Invoices'}">
+    <div class="absolute bottom-36 flex justify-center left-0 px-8 w-full">
+      <router-link class="w-full max-w-2xl" :to="{name: 'Invoices'}">
         <button
           class="
             bg-gray-800
