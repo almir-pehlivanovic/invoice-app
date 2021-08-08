@@ -13,7 +13,7 @@
       <h1 class="-mt-4 drop-shadow-md">invoice</h1>
     </div>
     <div class="absolute bottom-36 left-0 px-8 w-full">
-      <router-link to="invoices">
+      <router-link :to="{name: 'Invoices'}">
         <button
           class="
             bg-gray-800
