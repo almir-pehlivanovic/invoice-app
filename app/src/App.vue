@@ -1,7 +1,7 @@
 <template>
   <div class="bg-gray-50 h-screen p-4">
     <Header />
-    <div class="-mt-28 h-screen max-w-3xl mx-auto relative">
+    <div class="h-screen max-w-3xl mx-auto relative">
       <router-view />
     </div>
   </div>
