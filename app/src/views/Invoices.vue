@@ -226,7 +226,7 @@
     </div>
     <!-- Add new Invoice button -->
     <div class=" mt-24 pt-1 relative flex justify-center left-0 w-full">
-      <button class="py-3 w-28 bg-gray-800 flex justify-center rounded-lg">
+      <button @click="newInvoice" class="py-3 w-28 bg-gray-800 flex justify-center rounded-lg">
         <svg
           class="h-6 w-6 text-white"
           fill="none"
@@ -242,5 +242,21 @@
         </svg>
       </button>
     </div>
+    <InvoiceModal />
   </div>
 </template>
+
+<script>
+import InvoiceModal from '../components/InvoiceModal.vue';
+
+export default {
+  components:{
+    InvoiceModal
+  },
+  methods:{
+    newInvoice(){
+
+    },
+  }
+}
+</script>

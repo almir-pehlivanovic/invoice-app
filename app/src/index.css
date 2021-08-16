@@ -1,4 +1,11 @@
 /* ./src/index.css */
 @tailwind base;
 @tailwind components;
+
+.input-form{
+    @apply bg-gray-50 border  mt-1 outline-none p-2 placeholder-opacity-70 rounded shadow-md text-base w-full
+}
+.input-form:focus-within{
+    @apply border-gray-300
+}
 @tailwind utilities;
