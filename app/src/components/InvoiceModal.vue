@@ -166,7 +166,7 @@
               >Invoice date</label
             >
             <input
-              type="text"
+              type="date"
               name="invoiceDate"
               id="invoiceDate"
               placeholder="Invoice date"
@@ -178,7 +178,7 @@
               >Payment date</label
             >
             <input
-              type="text"
+              type="date"
               name="paymentDate"
               id="paymentDate"
               placeholder="Payment date"
