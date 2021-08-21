@@ -150,17 +150,18 @@
       <div class="flex flex-col mt-6">
         <div class="-my-2 overflow-x-auto">
           <div class="py-2 align-middle inline-block min-w-full">
-            <div class="overflow-hidden shadow rounded-tl-lg rounded-tr-lg">
-              <table class="min-w-full divide-y divide-gray-200">
+            <div class="overflow-hidden shadow rounded-tl-lg rounded-tr-lg pb-2 bg-gray-100">
+              <table class="min-w-full">
                 <thead>
                   <tr>
                     <th
                       scope="col"
                       class="
                         px-6
-                        py-3
-                        text-left text-sm
-                        font-semibold
+                        pt-6
+                        pb-2
+                        text-left text-base
+                        font-bold
                         tracking-wider
                       "
                     >
@@ -170,9 +171,10 @@
                       scope="col"
                       class="
                         px-6
-                        py-3
-                        text-left text-sm
-                        font-semibold
+                        pt-6
+                        pb-2
+                        text-left text-base
+                        font-bold
                         tracking-wider
                       "
                     >
@@ -182,9 +184,10 @@
                       scope="col"
                       class="
                         px-6
-                        py-3
-                        text-left text-sm
-                        font-semibold
+                        pt-6
+                        pb-2
+                        text-left text-base
+                        font-bold
                         tracking-wider
                       "
                     >
@@ -194,9 +197,10 @@
                       scope="col"
                       class="
                         px-6
-                        py-3
-                        text-left text-sm
-                        font-semibold
+                        pt-6
+                        pb-2
+                        text-left text-base
+                        font-bold
                         tracking-wider
                       "
                     >
@@ -204,7 +208,7 @@
                     </th>
                   </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody>
                   <tr>
                     <td class="px-6 py-4 whitespace-nowrap">
                       <p>Designing</p>
