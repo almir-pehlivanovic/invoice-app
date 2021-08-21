@@ -229,7 +229,7 @@
           </div>
           <div>
             <input
-              type="numebr"
+              type="number"
               min="1"
               name="invoiceQty"
               id="invoiceQty"
@@ -239,7 +239,7 @@
           </div>
           <div>
             <input
-              type="numebr"
+              type="number"
               min="1"
               name="invoicePrice"
               id="invoicePrice"
