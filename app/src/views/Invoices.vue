@@ -242,16 +242,16 @@
         </svg>
       </button>
     </div>
-    <InvoiceModal />
+    <InvoiceModalForm />
   </div>
 </template>
 
 <script>
-import InvoiceModal from '../components/InvoiceModal.vue';
+import InvoiceModalForm from '../components/InvoiceModalForm.vue';
 
 export default {
   components:{
-    InvoiceModal
+    InvoiceModalForm
   },
   methods:{
     newInvoice(){
