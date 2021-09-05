@@ -47,6 +47,7 @@
           id="billerStreatAddress"
           placeholder="Address"
           class="input-form"
+          v-model="billerStreatAddress"
         />
         <div class="flex gap-x-5 justify-between">
           <div>
@@ -57,6 +58,7 @@
               id="billerCity"
               placeholder="City"
               class="input-form"
+              v-model="billerCity"
             />
           </div>
           <div>
@@ -70,6 +72,7 @@
               id="billerZipCode"
               placeholder="Postal Code"
               class="input-form"
+              v-model="billerZipCode"
             />
           </div>
           <div>
@@ -82,6 +85,7 @@
               id="billerCountry"
               placeholder="Country"
               class="input-form"
+              v-model="billerCountry"
             />
           </div>
         </div>
@@ -97,6 +101,7 @@
           id="clientName"
           placeholder="Name"
           class="input-form"
+          v-model="clientName"
         />
 
         <label for="clientEmail" class="block mt-4 text-sm">Email</label>
@@ -106,6 +111,7 @@
           id="clientEmail"
           placeholder="Email"
           class="input-form"
+          v-model="clientEmail"
         />
         <label for="clientStreatAddress" class="block mt-4 text-sm"
           >Address</label
@@ -116,6 +122,7 @@
           id="clientStreatAddress"
           placeholder="Address"
           class="input-form"
+          v-model="clientStreatAddress"
         />
 
         <div class="flex gap-x-5 justify-between">
@@ -127,6 +134,7 @@
               id="clientCity"
               placeholder="City"
               class="input-form"
+              v-model="clientCity"
             />
           </div>
           <div>
@@ -140,6 +148,7 @@
               id="clientZipCode"
               placeholder="Postal Code"
               class="input-form"
+              v-model="clientZipCode"
             />
           </div>
           <div>
@@ -152,6 +161,7 @@
               id="clientCountry"
               placeholder="Country"
               class="input-form"
+              v-model="clientCountry"
             />
           </div>
         </div>
@@ -166,23 +176,26 @@
               >Invoice date</label
             >
             <input
+              disabled
               type="date"
               name="invoiceDate"
               id="invoiceDate"
               placeholder="Invoice date"
               class="input-form"
+              v-model="invoiceDate"
             />
           </div>
           <div class="flex-1">
-            <label for="paymentDate" class="block mt-4 text-sm"
+            <label for="paymentDueDate" class="block mt-4 text-sm"
               >Payment date</label
             >
             <input
               type="date"
-              name="paymentDate"
-              id="paymentDate"
+              name="paymentDueDate"
+              id="paymentDueDate"
               placeholder="Payment date"
               class="input-form"
+              v-model="paymentDueDate"
             />
           </div>
         </div>
@@ -195,10 +208,11 @@
           name="paymentTerms"
           id="paymentTerms"
           placeholder="Select terms"
+          v-model="paymentTerms"
         >
           <option>Select terms</option>
-          <option value="1">30 days</option>
-          <option value="2">60 days</option>
+          <option value="30">Net 30 days</option>
+          <option value="60">Net 60 days</option>
         </select>
 
         <label for="productDescription" class="block mt-4 text-sm"
@@ -210,59 +224,71 @@
           id="productDescription"
           placeholder="Description"
           class="input-form"
+          v-model="productDescription"
         />
       </div>
       <!-- Invoice details list -->
       <div class="relative">
-        <div class="flex gap-x-5 align-baseline items-end mb-3">
-          <div class="w-full">
-            <label for="invoiceName" class="block mt-4 text-sm"
+        <div class="items-end mb-3">
+          <div class="w-full block">
+            <label for="invoiceList" class="block mt-4 text-sm"
               >Invoice list</label
             >
+          </div>
+          <div
+            id="invoiceList"
+            class="flex gap-x-5 items-center"
+            v-for="(item, index) in invoiceItemList"
+            :key="index"
+          >
             <input
               type="text"
               name="invoiceName"
               id="invoiceName"
               placeholder="Invoice Name"
               class="input-form"
+              v-model="item.itemName"
             />
-          </div>
-          <div>
-            <input
-              type="number"
-              min="1"
-              name="invoiceQty"
-              id="invoiceQty"
-              placeholder="Qty"
-              class="input-form"
-            />
-          </div>
-          <div>
-            <input
-              type="number"
-              min="1"
-              name="invoicePrice"
-              id="invoicePrice"
-              placeholder="Price"
-              class="input-form"
-            />
-          </div>
-          <div class="relative">
-            <button title="Remove">
-              <svg
-                class="h-6 w-6 text-red-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </button>
+            <div>
+              <input
+                type="number"
+                min="1"
+                name="invoiceQty"
+                id="invoiceQty"
+                placeholder="Qty"
+                class="input-form"
+                v-model="item.itemQty"
+              />
+            </div>
+            <div>
+              <input
+                type="number"
+                min="1"
+                name="invoicePrice"
+                id="invoicePrice"
+                placeholder="Price"
+                class="input-form"
+                v-model="item.itemPrice"
+              />
+              <p class="hidden">${{ item.itemQty * item.itemPrice }}</p>
+            </div>
+            <div class="relative h-6">
+              <button title="Remove" type="button">
+                <svg
+                  class="h-6 w-6 text-red-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
         <div class="absolute right-0">
@@ -272,6 +298,7 @@
         </div>
         <div class="mt-12">
           <button
+            type="button"
             title="New item"
             class="
               flex
@@ -301,6 +328,7 @@
           </button>
         </div>
       </div>
+
       <!-- Invoice submit, close, draft buttons -->
       <div class="mt-11 flex justify-between items-center">
         <div>
