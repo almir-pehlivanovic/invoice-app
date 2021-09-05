@@ -242,11 +242,14 @@
         </svg>
       </button>
     </div>
-    <InvoiceModalForm />
+    <InvoiceModalForm v-if="invoiceModal"/>
   </div>
 </template>
 
 <script>
+import {mapState} from 'vuex';
+import {mapMutations} from 'vuex';
+
 import InvoiceModalForm from '../components/InvoiceModalForm.vue';
 
 export default {
@@ -254,9 +257,13 @@ export default {
     InvoiceModalForm
   },
   methods:{
+    ...mapMutations(['TOGGLE_INVOICE']),
     newInvoice(){
-
+      this.TOGGLE_INVOICE();
     },
+  },
+  computed:{
+    ...mapState(['invoiceModal']) 
   }
 }
 </script>

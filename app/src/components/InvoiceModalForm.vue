@@ -21,7 +21,7 @@
     "
   >
     <div class="flex items-center">
-      <button>
+      <button  @click="closeInvoice" class="z-10">
         <svg class="h-6 w-5" viewBox="0 0 20 20" fill="currentColor">
           <path
             fill-rule="evenodd"
@@ -332,7 +332,7 @@
       <!-- Invoice submit, close, draft buttons -->
       <div class="mt-11 flex justify-between items-center">
         <div>
-          <button class="py-3 px-4" title="Close">
+          <button @click="closeInvoice" class="py-3 px-4" title="Close">
             <svg
               class="h-6 w-6 text-red-500"
               fill="none"
@@ -384,6 +384,8 @@
 </template>
 
 <script>
+import {mapMutations} from 'vuex';
+
 export default {
   name: "InvoiceModal",
   data() {
@@ -410,6 +412,12 @@ export default {
       invoiceTotal: 0,
     };
   },
+  methods:{
+    ...mapMutations(['TOGGLE_INVOICE']),
+    closeInvoice(){
+      this.TOGGLE_INVOICE();
+    },
+  }
 };
 </script>
 
