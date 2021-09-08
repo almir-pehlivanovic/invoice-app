@@ -242,7 +242,9 @@
         </svg>
       </button>
     </div>
-    <InvoiceModalForm v-if="invoiceModal"/>
+    <transition name="invoice"> 
+      <InvoiceModalForm v-if="invoiceModal"/>
+    </transition>
   </div>
 </template>
 
@@ -267,3 +269,15 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+/* Animate invoice */
+.invoice-enter-active,
+.invoice-leave-active{
+  transition: 0.8s ease all;
+}
+.invoice-enter-from,
+.invoice-leave-to{
+  transform: translateX(-910px);
+}
+</style>
