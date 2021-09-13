@@ -21,7 +21,7 @@
     "
   >
     <div class="flex items-center">
-      <button  @click="closeInvoice" class="z-10">
+      <button @click="closeInvoice" class="z-10">
         <svg class="h-6 w-5" viewBox="0 0 20 20" fill="currentColor">
           <path
             fill-rule="evenodd"
@@ -177,7 +177,7 @@
             >
             <input
               disabled
-              type="date"
+              type="text"
               name="invoiceDate"
               id="invoiceDate"
               placeholder="Invoice date"
@@ -384,7 +384,7 @@
 </template>
 
 <script>
-import {mapMutations} from 'vuex';
+import { mapMutations } from "vuex";
 
 export default {
   name: "InvoiceModal",
@@ -410,14 +410,24 @@ export default {
       invoiceDraft: null,
       invoiceItemList: [],
       invoiceTotal: 0,
+      dateOptions: { year: "numeric", month: "short", day: "numeric" },
     };
   },
-  methods:{
-    ...mapMutations(['TOGGLE_INVOICE']),
-    closeInvoice(){
+  created() {
+    // get current date for invoice date field
+    this.invoiceDateUnix = Date.now();
+    this.invoiceDate = new Date(this.invoiceDateUnix).toLocaleDateString(
+      "en-us",
+      this.dateOptions
+    );
+    console.log(this.invoiceDate);
+  },
+  methods: {
+    ...mapMutations(["TOGGLE_INVOICE"]),
+    closeInvoice() {
       this.TOGGLE_INVOICE();
     },
-  }
+  },
 };
 </script>
 
