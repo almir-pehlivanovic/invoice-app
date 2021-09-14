@@ -272,7 +272,11 @@
               <p class="hidden">${{ item.itemQty * item.itemPrice }}</p>
             </div>
             <div class="relative h-6">
-              <button title="Remove" type="button">
+              <button
+                title="Remove"
+                type="button"
+                @click="deleteInvoiceItem(item.itemId)"
+              >
                 <svg
                   class="h-6 w-6 text-red-500"
                   fill="none"
@@ -309,6 +313,7 @@
               justify-center
               rounded
             "
+            @click="addNewInvoiceItem"
           >
             <svg
               class="h-6 w-6 mx-2 text-white"
@@ -384,6 +389,8 @@
 
 <script>
 import { mapMutations } from "vuex";
+// Importing unique id for invoice items
+import { uuid } from "vue-uuid";
 
 export default {
   name: "InvoiceModal",
@@ -421,12 +428,33 @@ export default {
     );
   },
   methods: {
+    // use the Mutations from state managment
     ...mapMutations(["TOGGLE_INVOICE"]),
+    // close the invoice modal function
     closeInvoice() {
       this.TOGGLE_INVOICE();
     },
+
+    // Add new invoice item list
+    addNewInvoiceItem() {
+      this.invoiceItemList.push({
+        itemId: uuid.v1(),
+        itemName: "",
+        itemQty: "",
+        itemPrice: 0,
+        total: 0,
+      });
+    },
+
+    // Delete invoice item from list
+    deleteInvoiceItem(value) {
+      this.invoiceItemList = this.invoiceItemList.filter(
+        (item) => item.itemId !== value
+      );
+    },
   },
   watch: {
+    // whatch the change on select termns option, generate date
     paymentTerms() {
       const futureDate = new Date();
       this.paymentDueDateUnix = futureDate.setDate(
