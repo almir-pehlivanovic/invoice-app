@@ -190,7 +190,7 @@
               >Payment date</label
             >
             <input
-              type="date"
+              type="text"
               name="paymentDueDate"
               id="paymentDueDate"
               placeholder="Payment date"
@@ -210,7 +210,6 @@
           placeholder="Select terms"
           v-model="paymentTerms"
         >
-          <option>Select terms</option>
           <option value="30">Net 30 days</option>
           <option value="60">Net 60 days</option>
         </select>
@@ -420,12 +419,22 @@ export default {
       "en-us",
       this.dateOptions
     );
-    console.log(this.invoiceDate);
   },
   methods: {
     ...mapMutations(["TOGGLE_INVOICE"]),
     closeInvoice() {
       this.TOGGLE_INVOICE();
+    },
+  },
+  watch: {
+    paymentTerms() {
+      const futureDate = new Date();
+      this.paymentDueDateUnix = futureDate.setDate(
+        futureDate.getDate() + parseInt(this.paymentTerms)
+      );
+      this.paymentDueDate = new Date(
+        this.paymentDueDateUnix
+      ).toLocaleDateString("en-us", this.dateOptions);
     },
   },
 };
