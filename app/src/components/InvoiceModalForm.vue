@@ -269,7 +269,7 @@
                 class="input-form"
                 v-model="item.itemPrice"
               />
-              <p class="hidden">${{ item.itemQty * item.itemPrice }}</p>
+              <p class="hidden">${{ (item.total = item.itemQty * item.itemPrice) }}</p>
             </div>
             <div class="relative h-6">
               <button
@@ -353,7 +353,7 @@
           </button>
         </div>
         <div class="flex items-center gap-x-9">
-          <button class="py-3 px-4" title="Save as draft">
+          <button @click="saveDraft" class="py-3 px-4" title="Save as draft">
             <svg
               class="h-6 w-6 text-gray-600"
               fill="none"
@@ -369,6 +369,7 @@
             </svg>
           </button>
           <button
+            @click="publisInvoice"
             title="Submit invoice"
             class="
               px-12
@@ -388,6 +389,9 @@
 </template>
 
 <script>
+// Importing firestore database
+import firebase from "../firebase/firebaseInit";
+
 import { mapMutations } from "vuex";
 // Importing unique id for invoice items
 import { uuid } from "vue-uuid";
@@ -451,6 +455,67 @@ export default {
       this.invoiceItemList = this.invoiceItemList.filter(
         (item) => item.itemId !== value
       );
+    },
+
+    // Calculating the invoice item list total
+    calcInvoiceTotal() {
+      this.invoiceTotal = 0;
+      this.invoiceItemList.forEach((item) => {
+        this.invoiceTotal += item.total;
+      });
+    },
+
+    //Publish new invoice
+    publisInvoice() {
+      this.invoicePending = true;
+    },
+
+    // Save draft
+    saveDraft() {
+      this.invoiceDraft = true;
+    },
+
+    // Uploading invoice
+    async uploadInvoice() {
+      //Form validation later here
+      if (this.invoiceItemList.length <= 0) {
+        alert("Please ensure you filled out work items!");
+        return;
+      }
+
+      this.calcInvoiceTotal();
+
+      await firebase.setDoc(
+        firebase.doc(firebase.db, "invoices", "invoice"), {
+          invoiceId: uuid.v1(),
+          billerStreatAddress: this.billerStreatAddress,
+          billerCity: this.billerCity,
+          billerZipCode: this.billerZipCode,
+          billerCountry: this.billerCountry,
+          clientName: this.clientName,
+          clientEmail: this.clientEmail,
+          clientStreatAddress: this.clientStreatAddress,
+          clientCity: this.clientCity,
+          clientZipCode: this.clientZipCode,
+          clientCountry: this.clientCountry,
+          invoiceDateUnix: this.invoiceDateUnix,
+          invoiceDate: this.invoiceDate,
+          paymentTerms: this.paymentTerms,
+          paymentDueDateUnix: this.paymentDueDateUnix,
+          paymentDueDate: this.paymentDueDate,
+          productDescription: this.productDescription,
+          invoicePending: this.invoicePending,
+          invoiceDraft: this.invoiceDraft,
+          invoiceItemList: this.invoiceItemList,
+          invoiceTotal: this.invoiceTotal,
+          invoicePaid: null,
+        });
+
+      this.closeInvoice();
+    },
+    // Submiting the form
+    submitForm() {
+      this.uploadInvoice();
     },
   },
   watch: {
