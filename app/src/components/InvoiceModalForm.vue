@@ -494,8 +494,8 @@ export default {
       this.loading = true;
 
       this.calcInvoiceTotal(); // custom function to calculate total of invoice
-
-      await firebase.setDoc(firebase.doc(firebase.db, "invoices", "invoice"), {
+      
+      await firebase.addDoc(firebase.collection(firebase.db, "invoices"), {
         invoiceId: uuid.v1(),
         billerStreatAddress: this.billerStreatAddress,
         billerCity: this.billerCity,
