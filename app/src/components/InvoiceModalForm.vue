@@ -483,7 +483,7 @@ export default {
         return;
       }
 
-      this.calcInvoiceTotal();
+      this.calcInvoiceTotal(); // custom function to calculate total of invoice
 
       await firebase.setDoc(
         firebase.doc(firebase.db, "invoices", "invoice"), {
@@ -511,11 +511,11 @@ export default {
           invoicePaid: null,
         });
 
-      this.closeInvoice();
+      this.closeInvoice(); // custom function for toggling invoice modal
     },
     // Submiting the form
     submitForm() {
-      this.uploadInvoice();
+      this.uploadInvoice(); // custom function to upload invoice to firebase
     },
   },
   watch: {
