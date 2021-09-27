@@ -6,7 +6,7 @@
       bg-gray-50
       border-gray-300 border-r
       bottom-0
-      fixed
+      absolute
       left-0
       mx-auto
       overflow-y-scroll
@@ -20,6 +20,8 @@
       w-full
     "
   >
+    <Loading v-show="loading" />
+    
     <div class="flex items-center">
       <button @click="closeInvoice" class="z-10">
         <svg class="h-6 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -269,7 +271,9 @@
                 class="input-form"
                 v-model="item.itemPrice"
               />
-              <p class="hidden">${{ (item.total = item.itemQty * item.itemPrice) }}</p>
+              <p class="hidden">
+                ${{ (item.total = item.itemQty * item.itemPrice) }}
+              </p>
             </div>
             <div class="relative h-6">
               <button
@@ -395,11 +399,13 @@ import firebase from "../firebase/firebaseInit";
 import { mapMutations } from "vuex";
 // Importing unique id for invoice items
 import { uuid } from "vue-uuid";
+import Loading from "../components/Loading.vue";
 
 export default {
   name: "InvoiceModal",
   data() {
     return {
+      loading: null,
       billerStreatAddress: null,
       billerCity: null,
       billerZipCode: null,
@@ -422,6 +428,9 @@ export default {
       invoiceTotal: 0,
       dateOptions: { year: "numeric", month: "short", day: "numeric" },
     };
+  },
+  components: {
+    Loading,
   },
   created() {
     // get current date for invoice date field
@@ -482,36 +491,39 @@ export default {
         alert("Please ensure you filled out work items!");
         return;
       }
+      this.loading = true;
 
       this.calcInvoiceTotal(); // custom function to calculate total of invoice
 
-      await firebase.setDoc(
-        firebase.doc(firebase.db, "invoices", "invoice"), {
-          invoiceId: uuid.v1(),
-          billerStreatAddress: this.billerStreatAddress,
-          billerCity: this.billerCity,
-          billerZipCode: this.billerZipCode,
-          billerCountry: this.billerCountry,
-          clientName: this.clientName,
-          clientEmail: this.clientEmail,
-          clientStreatAddress: this.clientStreatAddress,
-          clientCity: this.clientCity,
-          clientZipCode: this.clientZipCode,
-          clientCountry: this.clientCountry,
-          invoiceDateUnix: this.invoiceDateUnix,
-          invoiceDate: this.invoiceDate,
-          paymentTerms: this.paymentTerms,
-          paymentDueDateUnix: this.paymentDueDateUnix,
-          paymentDueDate: this.paymentDueDate,
-          productDescription: this.productDescription,
-          invoicePending: this.invoicePending,
-          invoiceDraft: this.invoiceDraft,
-          invoiceItemList: this.invoiceItemList,
-          invoiceTotal: this.invoiceTotal,
-          invoicePaid: null,
-        });
+      await firebase.setDoc(firebase.doc(firebase.db, "invoices", "invoice"), {
+        invoiceId: uuid.v1(),
+        billerStreatAddress: this.billerStreatAddress,
+        billerCity: this.billerCity,
+        billerZipCode: this.billerZipCode,
+        billerCountry: this.billerCountry,
+        clientName: this.clientName,
+        clientEmail: this.clientEmail,
+        clientStreatAddress: this.clientStreatAddress,
+        clientCity: this.clientCity,
+        clientZipCode: this.clientZipCode,
+        clientCountry: this.clientCountry,
+        invoiceDateUnix: this.invoiceDateUnix,
+        invoiceDate: this.invoiceDate,
+        paymentTerms: this.paymentTerms,
+        paymentDueDateUnix: this.paymentDueDateUnix,
+        paymentDueDate: this.paymentDueDate,
+        productDescription: this.productDescription,
+        invoicePending: this.invoicePending,
+        invoiceDraft: this.invoiceDraft,
+        invoiceItemList: this.invoiceItemList,
+        invoiceTotal: this.invoiceTotal,
+        invoicePaid: null,
+      });
 
-      this.closeInvoice(); // custom function for toggling invoice modal
+      this.loading = false;
+      setTimeout(()=>{
+        this.closeInvoice(); // custom function for toggling invoice modal
+      }, 100)
     },
     // Submiting the form
     submitForm() {
