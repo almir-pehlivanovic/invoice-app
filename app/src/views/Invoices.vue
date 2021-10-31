@@ -28,8 +28,8 @@
         </button>
       </div>
     </div>
-    <!-- Invoice list -->
-    <div class="mt-9">
+    <!-- Invoice list, if state of invoicesLoaded is true show data -->
+    <div class="mt-9" v-if="invoicesLoaded">
       <ul class="flex flex-col gap-y-4">
         <li class=" flex items-center shadow-md rounded px-2 py-3 justify-between text-gray-800 border border-gray-100 relative">
           <span>#693TW</span>
@@ -107,8 +107,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex';
-import {mapMutations} from 'vuex';
+import { mapState, mapMutations, mapActions   } from 'vuex';
 
 import InvoiceModalForm from '../components/InvoiceModalForm.vue';
 import ConfirmModal from '../components/ConfirmModal.vue';
@@ -118,14 +117,22 @@ export default {
     InvoiceModalForm,
     ConfirmModal
   },
+  created(){
+    // first call mapActions and get all data from GET_INVOICES action
+    this.GET_INVOICES();
+  },
   methods:{
     ...mapMutations(['TOGGLE_INVOICE']),
+
+    ...mapActions(['GET_INVOICES']),
+
     newInvoice(){
       this.TOGGLE_INVOICE();
     },
   },
+  // get all state from Vuex
   computed:{
-    ...mapState(['invoiceModal', 'confirmModalActive']) 
+    ...mapState(['invoiceModal', 'confirmModalActive', 'invoicesLoaded']) 
   }
 }
 </script>
