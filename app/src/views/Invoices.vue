@@ -32,17 +32,6 @@
     <div class="mt-9" v-if="invoicesLoaded">
       <ul class="flex flex-col gap-y-4">
         <Invoice v-for="(invoice, index) in invoiceData" :key="index" :invoice="invoice" />
-      <li class=" flex items-center shadow-md rounded px-2 py-3 justify-between text-gray-800 border border-gray-100 relative">
-          <span>#693TW</span>
-          <p>John Doe</p>
-          <strong class="font-bold">$293.92</strong>
-          <div class="flex items-center gap-x-4">
-            <span class="w-3 h-3 rounded-full bg-gray-400"></span>
-            <svg class="h-5 w-5 text-gray-800" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-            </svg>
-          </div>
-        </li>
       </ul>
     </div>
     <!-- Add new Invoice button -->
