@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mt-9">
+    <div class="mt-9 w-20">
       <router-link :to="{ name: 'Home' }">
         <button class="flex items-center">
           <svg
@@ -242,6 +242,7 @@
         </svg>
       </button>
     </div>
+    <ConfirmModal v-if="confirmModalActive" />
     <transition name="invoice"> 
       <InvoiceModalForm v-if="invoiceModal"/>
     </transition>
@@ -253,10 +254,12 @@ import {mapState} from 'vuex';
 import {mapMutations} from 'vuex';
 
 import InvoiceModalForm from '../components/InvoiceModalForm.vue';
+import ConfirmModal from '../components/ConfirmModal.vue';
 
 export default {
   components:{
-    InvoiceModalForm
+    InvoiceModalForm,
+    ConfirmModal
   },
   methods:{
     ...mapMutations(['TOGGLE_INVOICE']),
@@ -265,7 +268,7 @@ export default {
     },
   },
   computed:{
-    ...mapState(['invoiceModal']) 
+    ...mapState(['invoiceModal', 'confirmModalActive']) 
   }
 }
 </script>
