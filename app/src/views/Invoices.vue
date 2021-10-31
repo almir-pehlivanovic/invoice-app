@@ -13,7 +13,7 @@
     <div class="mt-7 flex justify-between items-center">
       <div class="text-gray-800">
         <h2 class="text-xl font-bold">Invoice list</h2>
-        <p class="text-xs">There are 7 total invoices</p>
+        <p class="text-xs">There are {{ invoiceData.length }} total invoices</p>
       </div>
       <div class="flex items-center gap-x-6">
         <button>
@@ -31,18 +31,8 @@
     <!-- Invoice list, if state of invoicesLoaded is true show data -->
     <div class="mt-9" v-if="invoicesLoaded">
       <ul class="flex flex-col gap-y-4">
-        <li class=" flex items-center shadow-md rounded px-2 py-3 justify-between text-gray-800 border border-gray-100 relative">
-          <span>#693TW</span>
-          <p>John Doe</p>
-          <strong class="font-bold">$293.92</strong>
-          <div class="flex items-center gap-x-4">
-            <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
-            <svg class="h-5 w-5 text-gray-800" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-            </svg>
-          </div>
-        </li>
-        <li class=" flex items-center shadow-md rounded px-2 py-3 justify-between text-gray-800 border border-gray-100 relative">
+        <Invoice v-for="(invoice, index) in invoiceData" :key="index" :invoice="invoice" />
+      <li class=" flex items-center shadow-md rounded px-2 py-3 justify-between text-gray-800 border border-gray-100 relative">
           <span>#693TW</span>
           <p>John Doe</p>
           <strong class="font-bold">$293.92</strong>
@@ -52,42 +42,6 @@
               <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
             </svg>
           </div>
-        </li>
-        <li class=" flex items-center shadow-md rounded px-2 py-3 justify-between text-gray-800 border border-gray-100 relative">
-          <span>#693TW</span>
-          <span>John Doe</span>
-          <strong class="font-bold">$293.92</strong>
-          <div class="flex items-center gap-x-4">
-            <span class="w-3 h-3 rounded-full bg-green-700"></span>
-            <svg class="h-5 w-5 text-gray-800" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-            </svg>
-          </div>
-        </li>
-        <li class=" flex items-center shadow-md rounded px-2 py-3 justify-between text-gray-800 border border-gray-100 relative">
-          <span>#693TW</span>
-          <p>John Doe</p>
-          <strong class="font-bold">$293.92</strong>
-          <div class="flex items-center gap-x-4">
-            <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
-            <svg class="h-5 w-5 text-gray-800" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-            </svg>
-          </div>
-        </li>
-        <li class=" flex items-center shadow-md rounded px-2 py-3 justify-between text-gray-800 border border-red-500 relative">
-          <span>#693TW</span>
-          <p>John Doe</p>
-          <strong class="font-bold">$293.92</strong>
-          <div class="flex items-center gap-x-4">
-            <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
-            <svg class="h-5 w-5 text-gray-800" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-            </svg>
-          </div>
-          <span class="absolute left-0 -bottom-6 text-red-500">
-            Due date exceeded
-          </span>
         </li>
       </ul>
     </div>
@@ -111,11 +65,13 @@ import { mapState, mapMutations, mapActions   } from 'vuex';
 
 import InvoiceModalForm from '../components/InvoiceModalForm.vue';
 import ConfirmModal from '../components/ConfirmModal.vue';
+import Invoice from '../components/Invoice.vue';
 
 export default {
   components:{
     InvoiceModalForm,
-    ConfirmModal
+    ConfirmModal,
+    Invoice,
   },
   created(){
     // first call mapActions and get all data from GET_INVOICES action
@@ -132,7 +88,7 @@ export default {
   },
   // get all state from Vuex
   computed:{
-    ...mapState(['invoiceModal', 'confirmModalActive', 'invoicesLoaded']) 
+    ...mapState(['invoiceModal', 'confirmModalActive', 'invoicesLoaded', 'invoiceData']) 
   }
 }
 </script>

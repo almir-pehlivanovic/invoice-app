@@ -21,7 +21,7 @@ const routes = [
     }
   },
   {
-    path: '/invoice',
+    path: '/invoice/:invoiceId',
     name: 'InvoiceDetail',
     component: InvoiceDetail,
     meta:{
