@@ -29,10 +29,15 @@
       </div>
     </div>
     <!-- Invoice list, if state of invoicesLoaded is true show data -->
-    <div class="mt-9" v-if="invoicesLoaded">
-      <ul class="flex flex-col gap-y-4">
+    <div class="mt-9" v-if="invoiceData.length > 0">
+      <ul v-if="invoicesLoaded"  class="flex flex-col gap-y-4">
         <Invoice v-for="(invoice, index) in invoiceData" :key="index" :invoice="invoice" />
       </ul>
+    </div>
+    <div v-else class="-mb-16 mt-9 text-center text-gray-800">
+      <img class="max-w-xs mx-auto w-full" src="@/assets/undraw_no_data_re_kwbl.svg" alt="Nothing found">
+      <h3 class=" mt-5 text-xl font-semibold">There is nothing here</h3>
+      <p>Create a new invoice by clicking the button below and get started</p>
     </div>
     <!-- Add new Invoice button -->
     <div class=" mt-24 pt-1 relative flex justify-center left-0 w-full">
