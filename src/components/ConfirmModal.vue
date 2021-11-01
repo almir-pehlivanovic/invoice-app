@@ -39,12 +39,12 @@
 </template>
 
 <script>
-import {mapMutations} from 'vuex';
+import { mapMutations } from 'vuex';
 
 export default {
     name: 'confirmModal',
     methods: {
-        ...mapMutations(["TOGGLE_CONFIRMMODALACTIVE", "TOGGLE_INVOICE" ]),
+        ...mapMutations(["TOGGLE_CONFIRMMODALACTIVE", "TOGGLE_INVOICE", "FALSE_EDIT_INVOICE" ]),
 
         closeModal(){
             this.TOGGLE_CONFIRMMODALACTIVE();
@@ -53,8 +53,8 @@ export default {
         closeInvoice(){
             this.TOGGLE_CONFIRMMODALACTIVE();
             this.TOGGLE_INVOICE();
+            this.FALSE_EDIT_INVOICE();
         }
-
-    }
+    },
 }
 </script>

@@ -64,12 +64,13 @@ export default {
     this.GET_INVOICES();
   },
   methods:{
-    ...mapMutations(['TOGGLE_INVOICE']),
+    ...mapMutations(['TOGGLE_INVOICE', 'FALSE_EDIT_INVOICE']),
 
     ...mapActions(['GET_INVOICES']),
 
     newInvoice(){
       this.TOGGLE_INVOICE();
+      this.FALSE_EDIT_INVOICE();
     },
   },
   // get all state from Vuex

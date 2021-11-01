@@ -32,8 +32,11 @@ export default createStore({
     },
 
     // EDIT invoice
-    TOGGLE_EDIT_INVOICE(state){
-      state.editInvoice = !state.editInvoice;
+    TRUE_EDIT_INVOICE(state){
+      state.editInvoice = true;
+    },
+    FALSE_EDIT_INVOICE(state){
+      state.editInvoice = false;
     },
   },
   actions: {

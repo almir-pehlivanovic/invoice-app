@@ -146,7 +146,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations(['SET_CURRENT_INVOICE', 'TOGGLE_EDIT_INVOICE', 'TOGGLE_INVOICE']),
+    ...mapMutations(['SET_CURRENT_INVOICE', 'TRUE_EDIT_INVOICE', 'TOGGLE_INVOICE']),
   
     getCurrentInvoice(){
       this.SET_CURRENT_INVOICE(this.$route.params.invoiceId);
@@ -154,7 +154,7 @@ export default {
     },
 
     toggleEditInvoice(){
-      this.TOGGLE_EDIT_INVOICE();
+      this.TRUE_EDIT_INVOICE();
       this.TOGGLE_INVOICE();
     },
   },

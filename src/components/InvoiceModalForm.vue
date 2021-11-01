@@ -10,9 +10,8 @@
             <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
           </svg>
         </button>
-        <h2 class="-ml-5 flex-1 text-center font-bold text-xl">
-          Add New Invoice
-        </h2>
+        <h2 v-if="!editInvoice" class="-ml-5 flex-1 text-center font-bold text-xl">Add New Invoice</h2>
+        <h2 v-else class="-ml-5 flex-1 text-center font-bold text-xl">Edit Invoice</h2>
       </div>
       <form @submit.prevent="submitForm">
         <!-- Bill from input fields -->
@@ -138,13 +137,16 @@
             </button>
           </div>
           <div class="flex items-center gap-x-9">
-            <button @click="saveDraft" class="py-3 px-4" title="Save as draft">
+            <button v-if="!editInvoice" @click="saveDraft" type="button" class="py-3 px-4" title="Save as draft">
               <svg class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/>
               </svg>
             </button>
-            <button @click="publisInvoice" title="Submit invoice" class="px-12 py-3 font-semibold text-white text-base bg-gray-800 rounded">
+            <button v-if="!editInvoice" @click="publisInvoice" type="submit" title="Submit invoice" class="px-12 py-3 font-semibold text-white text-base bg-gray-800 rounded">
               Add
+            </button>
+            <button v-if="editInvoice" title="Submit invoice" type="submit" class="px-12 py-3 font-semibold text-white text-base bg-gray-800 rounded">
+              Update
             </button>
           </div>
         </div>
@@ -157,7 +159,7 @@
 // Importing firestore database
 import firebase from "../firebase/firebaseInit";
 
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 // Importing unique id for invoice items
 import { uuid } from "vue-uuid";
 import Loading from "../components/Loading.vue";
@@ -203,10 +205,11 @@ export default {
   },
   methods: {
     // use the Mutations from state managment
-    ...mapMutations(["TOGGLE_INVOICE", "TOGGLE_CONFIRMMODALACTIVE"]),
+    ...mapMutations(["TOGGLE_INVOICE", "TOGGLE_CONFIRMMODALACTIVE", "FALSE_EDIT_INVOICE"]),
     // close the invoice modal function
     closeInvoice() {
       this.TOGGLE_INVOICE();
+      this.FALSE_EDIT_INVOICE();
     },
     checkClick(event){
       if(event.target === this.$refs.invoiceWrap){
@@ -295,6 +298,9 @@ export default {
     submitForm() {
       this.uploadInvoice(); // custom function to upload invoice to firebase
     },
+  },
+  computed: {
+    ...mapState(['editInvoice']),
   },
   watch: {
     // whatch the change on select termns option, generate date
