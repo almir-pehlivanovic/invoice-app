@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions   } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 
 import Invoice from '../components/Invoice.vue';
 
