@@ -49,7 +49,6 @@ export default {
         closeModal(){
             this.TOGGLE_CONFIRMMODALACTIVE();
         },
-
         closeInvoice(){
             this.TOGGLE_CONFIRMMODALACTIVE();
             this.TOGGLE_INVOICE();

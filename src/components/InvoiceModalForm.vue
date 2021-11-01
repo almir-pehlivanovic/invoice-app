@@ -211,6 +211,7 @@ export default {
       this.TOGGLE_INVOICE();
       this.FALSE_EDIT_INVOICE();
     },
+
     checkClick(event){
       if(event.target === this.$refs.invoiceWrap){
         this.TOGGLE_CONFIRMMODALACTIVE();
@@ -294,6 +295,7 @@ export default {
         this.closeInvoice(); // custom function for toggling invoice modal
       }, 100)
     },
+    
     // Submiting the form
     submitForm() {
       this.uploadInvoice(); // custom function to upload invoice to firebase
