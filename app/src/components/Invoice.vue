@@ -18,6 +18,6 @@
 <script>
 export default {
     name: 'Invoice',
-    props: ['invoice']
+    props: ['invoice'],
 }
 </script>
