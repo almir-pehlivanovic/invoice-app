@@ -40,7 +40,7 @@
       <p>Create a new invoice by clicking the button below and get started</p>
     </div>
     <!-- Add new Invoice button -->
-    <div class=" mt-24 pt-1 relative flex justify-center left-0 w-full">
+    <div class=" mt-16 mb-8 pt-1 relative flex justify-center left-0 w-full">
       <button @click="newInvoice" class="py-3 w-28 bg-gray-800 flex justify-center rounded-lg">
         <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
