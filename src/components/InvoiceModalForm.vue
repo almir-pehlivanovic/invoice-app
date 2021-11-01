@@ -159,7 +159,7 @@
 // Importing firestore database
 import firebase from "../firebase/firebaseInit";
 
-import { mapMutations, mapState } from "vuex";
+import { mapMutations, mapState, mapActions } from "vuex";
 // Importing unique id for invoice items
 import { uuid } from "vue-uuid";
 import Loading from "../components/Loading.vue";
@@ -190,6 +190,7 @@ export default {
       invoiceItemList: [],
       invoiceTotal: 0,
       dateOptions: { year: "numeric", month: "short", day: "numeric" },
+      docId: null,
     };
   },
   components: {
@@ -197,15 +198,47 @@ export default {
   },
   created() {
     // get current date for invoice date field
-    this.invoiceDateUnix = Date.now();
-    this.invoiceDate = new Date(this.invoiceDateUnix).toLocaleDateString(
-      "en-us",
-      this.dateOptions
-    );
+    // only if the modal is not opened on the edit button
+    if(!this.editInvoice){
+      this.invoiceDateUnix = Date.now();
+      this.invoiceDate = new Date(this.invoiceDateUnix).toLocaleDateString(
+        "en-us",
+        this.dateOptions
+      );
+    }
+    // if edit Invoice is selected display all relavent info of the current invoice to the form fields
+    if(this.editInvoice){
+      const currentInvoice = this.currentInvoiceArray[0];
+        this.docId                = currentInvoice.docId;
+        this.billerStreatAddress  = currentInvoice.billerStreatAddress;
+        this.billerCity           = currentInvoice.billerCity;
+        this.billerZipCode        = currentInvoice.billerZipCode;
+        this.billerCountry        = currentInvoice.billerCountry;
+        this.clientName           = currentInvoice.clientName;
+        this.clientEmail          = currentInvoice.clientEmail;
+        this.clientStreatAddress  = currentInvoice.clientStreatAddress;
+        this.clientCity           = currentInvoice.clientCity;
+        this.clientZipCode        = currentInvoice.clientZipCode;
+        this.clientCountry        = currentInvoice.clientCountry;
+        this.invoiceDateUnix      = currentInvoice.invoiceDateUnix;
+        this.invoiceDate          = currentInvoice.invoiceDate;
+        this.paymentTerms         = currentInvoice.paymentTerms;
+        this.paymentDueDateUnix   = currentInvoice.paymentDueDateUnix;
+        this.paymentDueDate       = currentInvoice.paymentDueDate;
+        this.productDescription   = currentInvoice.productDescription;
+        this.invoicePending       = currentInvoice.invoicePending;
+        this.invoiceDraft         = currentInvoice.invoiceDraft;
+        this.invoiceItemList      = currentInvoice.invoiceItemList;
+        this.invoiceTotal         = currentInvoice.invoiceTotal;
+    }
   },
   methods: {
     // use the Mutations from state managment
     ...mapMutations(["TOGGLE_INVOICE", "TOGGLE_CONFIRMMODALACTIVE", "FALSE_EDIT_INVOICE"]),
+
+    // get update invoice action from vuex
+    ...mapActions(['UPDATE_INVOICE']),
+
     // close the invoice modal function
     closeInvoice() {
       this.TOGGLE_INVOICE();
@@ -295,14 +328,62 @@ export default {
         this.closeInvoice(); // custom function for toggling invoice modal
       }, 100)
     },
-    
+
+    // Update invoice
+    async updateInvoice() {
+      //Form validation later here
+      if (this.invoiceItemList.length <= 0) {
+        alert("Please ensure you filled out work items!");
+        return;
+      }
+      this.loading = true;
+      this.calcInvoiceTotal(); // custom function to calculate total of invoice
+      
+      // document that is going to be updated
+      const dataBase = firebase.doc(firebase.db, 'invoices', this.docId);
+      await firebase.updateDoc(dataBase, {
+          billerStreatAddress:  this.billerStreatAddress,
+          billerCity:           this.billerCity,
+          billerZipCode:        this.billerZipCode,
+          billerCountry:        this.billerCountry,
+          clientName:           this.clientName,
+          clientEmail:          this.clientEmail,
+          clientStreatAddress:  this.clientStreatAddress,
+          clientCity:           this.clientCity,
+          clientZipCode:        this.clientZipCode,
+          clientCountry:        this.clientCountry,
+          paymentTerms:         this.paymentTerms,
+          paymentDueDateUnix:   this.paymentDueDateUnix,
+          paymentDueDate:       this.paymentDueDate,
+          productDescription:   this.productDescription,
+          invoiceItemList:      this.invoiceItemList,
+          invoiceTotal:         this.invoiceTotal,
+      });
+
+      this.loading = false;
+      //creating payload to send it to action UPDATE_INVOICE
+      const data = {
+        docId:    this.docId, // current document from firestore
+        routeId:  this.$route.params.invoiceId, // current route id (unique id)
+      };
+      setTimeout(()=>{
+        this.UPDATE_INVOICE(data); // custom function update invoice with payload object {ob1,ob2} - data
+      }, 100)
+    },
+
     // Submiting the form
     submitForm() {
+      // if the action is executed on the edit button run the update function
+      if(this.editInvoice){
+        this.updateInvoice();
+        return;
+      }
       this.uploadInvoice(); // custom function to upload invoice to firebase
     },
   },
+  // get current state of edit invoce form & get current invoice Array (all data from the current opened invoice)
   computed: {
-    ...mapState(['editInvoice']),
+    ...mapState(['editInvoice', 'currentInvoiceArray']),
   },
   watch: {
     // whatch the change on select termns option, generate date

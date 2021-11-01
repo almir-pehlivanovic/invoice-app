@@ -159,7 +159,17 @@ export default {
     },
   },
   computed: {
-    ...mapState(['currentInvoiceArray']),
+    // get the current state from vuex editInvoice
+    ...mapState(['currentInvoiceArray', 'editInvoice']),
+  },
+  // watch the change is hapening
+  watch: {
+    editInvoice(){
+      // when the modal closes (when modal form toggles) refresh the current invoce info
+      if(!this.editInvoice){
+        this.currentInvoice = this.currentInvoiceArray[0];
+      }
+    },
   },
 };
 </script>
